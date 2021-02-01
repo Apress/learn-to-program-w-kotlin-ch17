@@ -1,0 +1,126 @@
+Section 17.3:
+override fun createPicture(): Picture {
+    val backgroundFile = Paths.get(IMAGES + "cliffs.png").toFile()
+    val background = loadPictureFromFile(backgroundFile)
+    val dinoFile = Paths.get(IMAGES + "a_dinosaur_fixed.png").toFile()
+    val dino = loadPictureFromFile(dinoFile)
+    val dinoWidth = dino.width()
+    val dinoHeight = dino.height()
+
+    val newPixels = Array<Array<Color>>(background.height()) {
+        row ->
+        Array<Color>(background.width()) {
+            column ->
+            if (row >= dinoHeight) {
+                background.pixelByRowColumn(row, column)
+            } else if (column >= dinoWidth) {
+                background.pixelByRowColumn(row, column)
+            } else {
+                dino.pixelByRowColumn(row, column)
+            }
+        }
+    }
+    return Picture(newPixels).scaleDown(5)
+}
+
+
+Just before Section 17.4:
+override fun createPicture(): Picture {
+    val backgroundFile = Paths.get(IMAGES + "cliffs.png").toFile()
+    val background = loadPictureFromFile(backgroundFile)
+    val dinoFile = Paths.get(IMAGES + "a_dinosaur_fixed.png").toFile()
+    val dino = loadPictureFromFile(dinoFile)
+    val dinoWidth = dino.width()
+    val dinoHeight = dino.height()
+    val rowOffset = 500
+    val columnOffset = 400
+
+    val newPixels = Array<Array<Color>>(background.height()) {
+        row ->
+        Array<Color>(background.width()) {
+            column ->
+            if (row < rowOffset || row >= rowOffset + dinoHeight) {
+                background.pixelByRowColumn(row, column)
+            } else if (column < columnOffset || column >= columnOffset + dinoWidth) {
+                background.pixelByRowColumn(row, column)
+            } else {
+                dino.pixelByRowColumn(row - rowOffset, column - columnOffset)
+            }
+        }
+    }
+    return Picture(newPixels).scaleDown(5)
+}
+
+Section 17.4:
+val foregroundPixel = dino.pixelByRowColumn(row - rowOffset, column - columnOffset)
+if (foregroundPixel == Color(255, 0, 255)) {
+    background.pixelByRowColumn(row, column)
+} else {
+    foregroundPixel
+}
+
+Just before Section 17.5:
+override fun createPicture(): Picture {
+    val backgroundFile = Paths.get(IMAGES + "cliffs.png").toFile()
+    val background = loadPictureFromFile(backgroundFile)
+    val dinoFile = Paths.get(IMAGES + "a_dinosaur_fixed.png").toFile()
+    val dino = loadPictureFromFile(dinoFile).flipInVerticalAxis()
+    val dinoWidth = dino.width()
+    val dinoHeight = dino.height()
+    val rowOffset = 950
+    val columnOffset = 1300
+
+    val newPixels = Array<Array<Color>>(background.height()) {
+        row ->
+        Array<Color>(background.width()) {
+            column ->
+            val backgroundPixel = background.pixelByRowColumn(row, column)
+            if (row < rowOffset || row >= rowOffset + dinoHeight) {
+                backgroundPixel
+            } else if (column < columnOffset || column >= columnOffset + dinoWidth) {
+                backgroundPixel
+            } else {
+                val foregroundPixel = dino.pixelByRowColumn(row - rowOffset, column - columnOffset)
+                if (foregroundPixel == Color(255, 0, 255)) {
+                    backgroundPixel
+                } else {
+                    foregroundPixel
+                }
+            }
+        }
+    }
+    return Picture(newPixels).scaleDown(5)
+}
+
+Section 17.5:
+override fun createPicture(): Picture {
+    val backgroundFile = Paths.get(IMAGES + "cradlemtbig.jpg").toFile()
+    val background = loadPictureFromFile(backgroundFile)
+    val dinoFile = Paths.get(IMAGES + "a_dinosaur_fixed.png").toFile()
+    val dino = loadPictureFromFile(dinoFile)
+    val dinoWidth = dino.width()
+    val dinoHeight = dino.height()
+    val rowOffset = 1100
+    val columnOffset = 1200
+
+    val newPixels = Array<Array<Color>>(background.height()) {
+        row ->
+        Array<Color>(background.width()) {
+            column ->
+            val backgroundPixel = background.pixelByRowColumn(row, column)
+            if (row < rowOffset || row >= rowOffset + dinoHeight - 200) {
+                backgroundPixel
+            } else if (column < columnOffset || column >= columnOffset + dinoWidth) {
+                backgroundPixel
+            } else {
+                val foregroundPixel = dino.pixelByRowColumn(row - rowOffset, column - columnOffset)
+                if (foregroundPixel == Color(255, 0, 255)) {
+                    backgroundPixel
+                } else {
+                    foregroundPixel
+                }
+            }
+        }
+    }
+    return Picture(newPixels).scaleDown(5).darkBorder()
+}
