@@ -1,3 +1,28 @@
+Section 17.2, for Thresholder.kt:
+package lpk.imaging
+
+import java.awt.Color
+import java.nio.file.Paths
+
+fun main() {
+    val IMAGES = "src/main/resources/images/"
+    val dinoFile = Paths.get(IMAGES + "a_dinosaur.png").toFile()
+    val dino = loadPictureFromFile(dinoFile)
+    val magenta = Color(255, 0, 255)
+    val makeMagenta : ((Color) -> (Color)) = {
+            color ->
+        if (color.red > 150 && color.green < 120  && color.blue > 150) {
+            magenta
+        } else {
+            color
+        }
+    }
+    val transformed = dino.transform(makeMagenta)
+    val dinoFileFixed = Paths.get(IMAGES, "a_dinosaur_fixed.png").toFile()
+    transformed.saveTo(dinoFileFixed)
+}
+
+
 Section 17.3:
 override fun createPicture(): Picture {
     val backgroundFile = Paths.get(IMAGES + "cliffs.png").toFile()
@@ -7,10 +32,10 @@ override fun createPicture(): Picture {
     val dinoWidth = dino.width()
     val dinoHeight = dino.height()
 
-    val newPixels = Array<Array<Color>>(background.height()) {
-        row ->
-        Array<Color>(background.width()) {
-            column ->
+    val newPixels = Array(background.height()) {
+            row ->
+        Array(background.width()) {
+                column ->
             if (row >= dinoHeight) {
                 background.pixelByRowColumn(row, column)
             } else if (column >= dinoWidth) {
@@ -23,7 +48,6 @@ override fun createPicture(): Picture {
     return Picture(newPixels).scaleDown(5)
 }
 
-
 Just before Section 17.4:
 override fun createPicture(): Picture {
     val backgroundFile = Paths.get(IMAGES + "cliffs.png").toFile()
@@ -35,10 +59,10 @@ override fun createPicture(): Picture {
     val rowOffset = 500
     val columnOffset = 400
 
-    val newPixels = Array<Array<Color>>(background.height()) {
-        row ->
-        Array<Color>(background.width()) {
-            column ->
+    val newPixels = Array(background.height()) {
+            row ->
+        Array(background.width()) {
+                column ->
             if (row < rowOffset || row >= rowOffset + dinoHeight) {
                 background.pixelByRowColumn(row, column)
             } else if (column < columnOffset || column >= columnOffset + dinoWidth) {
@@ -70,10 +94,10 @@ override fun createPicture(): Picture {
     val rowOffset = 950
     val columnOffset = 1300
 
-    val newPixels = Array<Array<Color>>(background.height()) {
-        row ->
-        Array<Color>(background.width()) {
-            column ->
+    val newPixels = Array(background.height()) {
+            row ->
+        Array(background.width()) {
+                column ->
             val backgroundPixel = background.pixelByRowColumn(row, column)
             if (row < rowOffset || row >= rowOffset + dinoHeight) {
                 backgroundPixel
@@ -103,10 +127,10 @@ override fun createPicture(): Picture {
     val rowOffset = 1100
     val columnOffset = 1200
 
-    val newPixels = Array<Array<Color>>(background.height()) {
-        row ->
-        Array<Color>(background.width()) {
-            column ->
+    val newPixels = Array(background.height()) {
+            row ->
+        Array(background.width()) {
+                column ->
             val backgroundPixel = background.pixelByRowColumn(row, column)
             if (row < rowOffset || row >= rowOffset + dinoHeight - 200) {
                 backgroundPixel
