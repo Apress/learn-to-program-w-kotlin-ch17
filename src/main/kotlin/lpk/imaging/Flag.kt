@@ -13,8 +13,8 @@ class Flag : PictureDisplayer() {
     fun createPictureOfFlag(): Picture {
         val height = 2000//Use your screen
         val width = 3000//resolution here!
-        val pixels = Array<Array<Color>>(height) {
-            Array<Color>(width) {
+        val pixels = Array(height) {
+            Array(width) {
                 magenta
             }
         }
